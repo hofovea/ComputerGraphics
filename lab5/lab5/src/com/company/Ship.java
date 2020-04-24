@@ -18,22 +18,22 @@ import java.io.IOException;
 import java.util.Map;
 import javax.swing.JFrame;
 
-public class Duck extends JFrame {
+public class Ship extends JFrame {
     static SimpleUniverse universe;
     static Scene scene;
     static Map<String, Shape3D> nameMap;
     static BranchGroup root;
     static Canvas3D canvas;
 
-    static TransformGroup wholeDuck;
+    static TransformGroup wholeShip;
     static Transform3D transform3D;
 
-    public Duck() throws IOException{
+    public Ship() throws IOException{
         configureWindow();
         configureCanvas();
         configureUniverse();
         addModelToUniverse();
-        setDuckElementsList();
+        setShipElementsList();
         addAppearance();
         addImageBackground();
         addLightToUniverse();
@@ -44,7 +44,7 @@ public class Duck extends JFrame {
     }
 
     private void configureWindow()  {
-        setTitle("Duck Animation");
+        setTitle("Ship");
         setSize(760,640);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
@@ -62,14 +62,14 @@ public class Duck extends JFrame {
     }
 
     private void addModelToUniverse() throws IOException{
-        scene = getSceneFromFile("source_folder//10602_Rubber_Duck_v1_L3.obj");
+        scene = getSceneFromFile("source_folder//SimpleRedShip.obj");
         root=scene.getSceneGroup();
     }
 
     private void addLightToUniverse(){
         Bounds bounds = new BoundingSphere();
         Color3f color = new Color3f(65/255f, 30/255f, 25/255f);
-        Vector3f lightdirection = new Vector3f(-1f,-1f,-1f);
+        Vector3f lightdirection = new Vector3f(-1.0f,-1.0f,-1.0f);
         DirectionalLight dirlight = new DirectionalLight(color,lightdirection);
         dirlight.setInfluencingBounds(bounds);
         root.addChild(dirlight);
@@ -80,25 +80,34 @@ public class Duck extends JFrame {
             System.out.printf("Name: %s\n", name);}
     }
 
-    private void setDuckElementsList() {
+    private void setShipElementsList() {
         nameMap=scene.getNamedObjects();
         //Print elements of your model:
         printModelElementsList(nameMap);
 
-        wholeDuck = new TransformGroup();
+        wholeShip = new TransformGroup();
 
         transform3D = new Transform3D();
         transform3D.rotX(-Math.PI / 2);
-        wholeDuck.setTransform(transform3D);
-        transform3D.setTranslation(new Vector3f(0, -1.3f, 0));
-        wholeDuck.setTransform(transform3D);
-        transform3D.setScale(0.5f);
-        wholeDuck.setTransform(transform3D);
+        wholeShip.setTransform(transform3D);
+        transform3D.setTranslation(new Vector3f(0, -1f, 0));
+        wholeShip.setTransform(transform3D);
+        transform3D.setScale(1.5f);
+        wholeShip.setTransform(transform3D);
 
-        root.removeChild(nameMap.get("10602_rubber_duck_v1"));
-        wholeDuck.addChild(nameMap.get("10602_rubber_duck_v1"));
-        wholeDuck.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
-        root.addChild(wholeDuck);
+        root.removeChild(nameMap.get("wheel"));
+        root.removeChild(nameMap.get("detals"));
+        root.removeChild(nameMap.get("sail"));
+        root.removeChild(nameMap.get("corpus"));
+        root.removeChild(nameMap.get("rope"));
+
+        wholeShip.addChild(nameMap.get("wheel"));
+        wholeShip.addChild(nameMap.get("detals"));
+        wholeShip.addChild(nameMap.get("sail"));
+        wholeShip.addChild(nameMap.get("corpus"));
+        wholeShip.addChild(nameMap.get("rope"));
+        wholeShip.setCapability(TransformGroup.ALLOW_TRANSFORM_WRITE);
+        root.addChild(wholeShip);
     }
 
     Texture getTexture(String path) {
@@ -112,23 +121,23 @@ public class Duck extends JFrame {
 
     Material getMaterial() {
         Material material = new Material();
-        material.setAmbientColor ( new Color3f( 0.9f, 0.9f, 0.0f) );
+        material.setAmbientColor ( new Color3f( 1.0f, 0.0f, 0.0f) );
         material.setDiffuseColor ( new Color3f( 1f, 1f, 1f ) );
-        material.setSpecularColor( new Color3f( 1f, 1f, 1f ) );
+        material.setSpecularColor( new Color3f( 1.0f, 0.0f, 0.0f ) );
         material.setShininess( 0.3f );
         material.setLightingEnable(true);
         return material;
     }
 
     private void addAppearance(){
-        Appearance duckAppearance = new Appearance();
-        duckAppearance.setTexture(getTexture("source_folder//app.jpg"));
+        Appearance shipAppearance = new Appearance();
+        shipAppearance.setTexture(getTexture("source_folder//wood.jpg"));
         TextureAttributes texAttr = new TextureAttributes();
         texAttr.setTextureMode(TextureAttributes.COMBINE);
-        duckAppearance.setTextureAttributes(texAttr);
-        duckAppearance.setMaterial(getMaterial());
-        Shape3D duck = nameMap.get("10602_rubber_duck_v1");
-        duck.setAppearance(duckAppearance);
+        shipAppearance.setTextureAttributes(texAttr);
+        shipAppearance.setMaterial(getMaterial());
+        Shape3D ship = nameMap.get("corpus");
+        ship.setAppearance(shipAppearance);
     }
 
     private void addColorBackground(){
@@ -139,7 +148,7 @@ public class Duck extends JFrame {
     }
 
     private void addImageBackground(){
-        TextureLoader t = new TextureLoader("source_folder//lake.jpg", canvas);
+        TextureLoader t = new TextureLoader("source_folder//sea.jpg", canvas);
         Background background = new Background(t.getImage());
         background.setImageScaleMode(Background.SCALE_FIT_ALL);
         BoundingSphere bounds = new BoundingSphere(new Point3d(0.0, 0.0, 0.0),100.0);
@@ -157,7 +166,7 @@ public class Duck extends JFrame {
     }
 
     private void addOtherLight(){
-        Color3f directionalLightColor = new Color3f(Color.BLACK);
+        Color3f directionalLightColor = new Color3f(Color.WHITE);
         Color3f ambientLightColor = new Color3f(Color.WHITE);
         Vector3f lightDirection = new Vector3f(-1F, -1F, -1F);
 
@@ -186,8 +195,8 @@ public class Duck extends JFrame {
 
     public static void main(String[]args){
         try {
-            Duck window = new Duck();
-            AnimationDuck duckMovement = new AnimationDuck(wholeDuck, transform3D, window);
+            Ship window = new Ship();
+            AnimationShip shipMovement = new AnimationShip(wholeShip, transform3D, window);
             window.setVisible(true);
         }
         catch (IOException ex) {

@@ -10,9 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 import javax.vecmath.*;
 
-public class AnimationDuck implements ActionListener, KeyListener {
+public class AnimationShip implements ActionListener, KeyListener {
     private Button go;
-    private TransformGroup wholeDuck;
+    private TransformGroup wholeShip;
     private Transform3D translateTransform;
     private Transform3D rotateTransformX;
     private Transform3D rotateTransformY;
@@ -27,9 +27,9 @@ public class AnimationDuck implements ActionListener, KeyListener {
     private float zloc=0.0f;
     private Timer timer;
 
-    public AnimationDuck(TransformGroup wholeDuck, Transform3D trans, JFrame frame){
+    public AnimationShip(TransformGroup wholeShip, Transform3D trans, JFrame frame){
         go = new Button("Go");
-        this.wholeDuck =wholeDuck;
+        this.wholeShip =wholeShip;
         this.translateTransform=trans;
         this.mainFrame=frame;
 
@@ -37,7 +37,7 @@ public class AnimationDuck implements ActionListener, KeyListener {
         rotateTransformY= new Transform3D();
         rotateTransformZ= new Transform3D();
 
-        Duck.canvas.addKeyListener(this);
+        Ship.canvas.addKeyListener(this);
         timer = new Timer(100, this);
 
         Panel p =new Panel();
@@ -51,7 +51,7 @@ public class AnimationDuck implements ActionListener, KeyListener {
         xloc=0.0f;
         yloc=0.0f;
         zloc=0.0f;
-        zoom=1.0f;
+        zoom=0.5f;
         sign=1.0f;
         if(timer.isRunning()){timer.stop();}
         go.setLabel("Go");
@@ -74,7 +74,7 @@ public class AnimationDuck implements ActionListener, KeyListener {
             Move();
             translateTransform.setScale(new Vector3d(zoom, zoom, zoom));
             translateTransform.setTranslation(new Vector3f(xloc,yloc,zloc));
-            wholeDuck.setTransform(translateTransform);
+            wholeShip.setTransform(translateTransform);
         }
     }
 
@@ -82,7 +82,7 @@ public class AnimationDuck implements ActionListener, KeyListener {
         xloc += 0.1 * sign;
         if (Math.abs(xloc *2) >= 2 ) {
             sign = -1.0f * sign;
-            rotateTransformZ.rotZ(Math.PI);
+            rotateTransformZ.rotY(Math.PI);
             translateTransform.mul(rotateTransformZ);
         }
     }
