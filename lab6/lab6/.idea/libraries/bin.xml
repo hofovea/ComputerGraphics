@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="bin">
+    <CLASSES>
+      <root url="jar://C:/Program Files/Java/Java3D/1.5.1/lib/ext/j3dcore.jar!/" />
+      <root url="jar://C:/Program Files/Java/Java3D/1.5.1/lib/ext/j3dutils.jar!/" />
+      <root url="jar://C:/Program Files/Java/Java3D/1.5.1/lib/ext/vecmath.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <NATIVE>
+      <root url="file://C:/Program Files/Java/Java3D/1.5.1/bin" />
+      <root url="file://C:/Program Files/Java/Java3D/1.5.1" />
+    </NATIVE>
+    <SOURCES />
+  </library>
+</component>
